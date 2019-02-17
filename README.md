@@ -6,3 +6,5 @@ le but de ce projet est de créer un programme qui permet de lier fortement un f
 le programme écris en c# ferra des appels a des scripts python affin d'analyser le fichier audio.
 
 lien du trello: https://trello.com/b/DbL5zVge/tfe
+
+bouh
