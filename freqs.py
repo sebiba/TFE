@@ -12,17 +12,6 @@ def initsignal(frequence, t1, t2):
     return np.sin(frequence * 2 * np.pi * t)
 
 
-def derange(signal):
-    for i in range(1, len(signal)):
-        temp = random.randint(0, 500)
-        if temp < 50:
-            signal[i] = random.randint(0, 2)
-
-    plt.plot(signal[:600])
-    plt.show()
-    return signal
-
-
 def correlation(signal):
     result = np.correlate(signal, signal, mode='full')
     signal = result[result.size // 2:]
