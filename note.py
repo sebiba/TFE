@@ -35,8 +35,5 @@ def freqToData(f):
         else:
             microtonalDeviation = '-' + fraction[0] + '/' + str(abs(int(fraction[1])))
 
-    return str(notes[int(notenum)]) + " \t" + str(octave) + "\t" + str(round(centsDetuned/4)) + "\t"  # + str(microtonalDeviation) + "\n"
-
-
-for i in range(440, 470, 2):
-    print(str(i)+" - "+freqToData(i))
+    # return str(notes[int(notenum)]) + " \t" + str(octave) + "\t" + str(round(centsDetuned/4)) + "\t"  # + str(microtonalDeviation) + "\n"
+    return str(notes[int(notenum)])

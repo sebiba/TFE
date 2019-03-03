@@ -1,9 +1,18 @@
-import matplotlib.pyplot as plt
 import numpy as np
 from scipy import fftpack
-import random
+import pydub
+from pydub.utils import mediainfo
+import sys
 
-fs = 2400  # sample rate
+
+def read(f):
+    """MP3 to numpy array"""
+    global fs
+    audio = pydub.AudioSegment.from_file(f)
+    fs = audio.frame_rate
+    test = audio.sample_width
+    jsp = audio.channels
+    return audio.get_array_of_samples()
 
 
 def initsignal(frequence, t1, t2):
@@ -16,9 +25,8 @@ def correlation(signal):
     result = np.correlate(signal, signal, mode='full')
     signal = result[result.size // 2:]
 
-    # plt.stem(x,y, 'r', )
-    plt.plot(signal[:600])
-    plt.show()
+    # plt.plot(signal[:600])
+    # plt.show()
     return signal
 
 
@@ -26,19 +34,25 @@ def frequence(signal):
     X = fftpack.fft(signal)
     freqs = fftpack.fftfreq(len(signal)) * fs
 
-    plt.stem(freqs, np.abs(X))
-    plt.xlabel('Frequency in Hertz [Hz]')
-    plt.ylabel('Frequency Domain (Spectrum) Magnitude')
-    plt.xlim(-1000, 1000)
-    plt.show()
+    # plt.stem(freqs, np.abs(X))
+    # plt.xlabel('Frequency in Hertz [Hz]')
+    # plt.ylabel('Frequency Domain (Spectrum) Magnitude')
+    # plt.xlim(-1000, 1000)
+    # plt.show()
 
     return freqs[np.where(np.abs(X) == np.max(np.abs(X)))[0][0]] + 1
 
 
-y = np.append(initsignal(220, 0, 1), initsignal(440, 1, 2))
+# y = np.append(initsignal(220, 0, 1), initsignal(440, 1, 2))
 # y = initsignal(220, 0, 1)
-test = np.array_split(y, len(y)/500)
+fs = 0  # sample rate
+y = read(sys.argv[1])
+test = np.array_split(y, len(y)/5000)
+output = ""
+
 for i in range(len(test)):
-    y1 = derange(test[i])
-    y2 = correlation(y1)
-    print(str(i) + ":\t" + str(frequence(y2)))
+    # y2 = correlation(test[i])
+    output += str(i) + ":" + str(frequence(test[i])) + "||"
+    # print(str(i) + ":" + str(frequence(test[i])) + "\t\t" + str(frequence(y)) + "\n")
+
+print(output)
